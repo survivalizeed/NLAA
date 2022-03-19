@@ -20,7 +20,7 @@ void DrawLine(Vec2 start, Vec2 end, Color color)
 	}
 }
 
-void DrawAALineDrawer(Vec2 start, Vec2 end, Color color) 
+void DrawAALineDrawer(Vec2 start, Vec2 end, Color color, float fak) 
 {
 	int dx = end.x - start.x;
 	int dy = end.y - start.y;
@@ -37,14 +37,14 @@ void DrawAALineDrawer(Vec2 start, Vec2 end, Color color)
 		RGB_ mixed{}, get{};
 		mixed.ToRGB(color);
 		get.ToRGB(Get({ static_cast<int>(round(x)), static_cast<int>(round(y)) }));
-		mixed.Average(get);
+		mixed.Average(get, fak);
 		Set({ static_cast<int>(round(x)), static_cast<int>(round(y)) }, mixed.ToColor());
 		x += xInc;
 		y += yInc;
 	}
 }
 
-void DrawAALine(Vec2 start, Vec2 end, Color color)
+void DrawAALine(Vec2 start, Vec2 end, Color color, int iterations)
 {
 	DrawLine(start, end, color);
 	int xN = 0;
@@ -67,6 +67,8 @@ void DrawAALine(Vec2 start, Vec2 end, Color color)
 		xN = 0;
 		yN = 1;
 	}
-	DrawAALineDrawer({ start.x + xN, start.y + yN }, { end.x + xN, end.y + yN }, color);
-	DrawAALineDrawer({ start.x - xN, start.y - yN }, { end.x - xN, end.y - yN }, color);
+	for (int i = 1; i <= iterations; ++i) {
+		DrawAALineDrawer({ start.x + xN * i, start.y + yN * i}, { end.x + xN * i, end.y + yN * i}, color, static_cast<float>(i));
+		DrawAALineDrawer({ start.x - xN * i, start.y - yN * i}, { end.x - xN * i, end.y - yN * i}, color, static_cast<float>(i));
+	}
 }
