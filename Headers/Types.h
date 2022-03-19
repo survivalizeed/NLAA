@@ -19,10 +19,13 @@ struct RGB_ {
 		b = GetRValue(color);
 	}
 
-	void Average(RGB_ o) {
-		r = sqrt((r * r) + (o.r * o.r)) / 2;
-		g = sqrt((g * g) + (o.g * o.g)) / 2;
-		b = sqrt((b * b) + (o.b * o.b)) / 2;
+	void Average(RGB_ o, float fak = 1.f) {
+		r = sqrt((r * r) + (o.r * o.r * fak)) / 2;
+		g = sqrt((g * g) + (o.g * o.g * fak)) / 2;
+		b = sqrt((b * b) + (o.b * o.b * fak)) / 2;
+		if (r > 255) r = 255;
+		if (g > 255) g= 255;
+		if (b > 255) b = 255;
 	}
 
 	Color ToColor()
