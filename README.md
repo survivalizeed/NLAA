@@ -1,2 +1,2 @@
 # NLAA
-An easy Anti-Aliasing Algorithm 
+Neighbor Line Anti-Aliasing: An easy Anti-Aliasing Algorithm 
